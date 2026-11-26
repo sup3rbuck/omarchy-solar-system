@@ -2,7 +2,14 @@
 # Pauses a video wallpaper (owe) while the solar system layer is on screen,
 # and resumes it once the layer is gone (plugin disabled or shell stopped).
 # Only one guard runs at a time.
-exec 9>"${XDG_RUNTIME_DIR:-/tmp}/mog-solar-system-video-guard.lock"
+# The lock lives only in the user's private runtime directory. Without one
+# (unset, not ours, a link, or not mode 700), fail closed and do nothing.
+dir=$XDG_RUNTIME_DIR
+[ -n "$dir" ] && [ -d "$dir" ] && [ ! -L "$dir" ] && [ -O "$dir" ] || exit 0
+[ "$(stat -c %a "$dir")" = 700 ] || exit 0
+lock=$dir/mog-solar-system-video-guard.lock
+[ -L "$lock" ] && exit 0
+exec 9>>"$lock"
 flock -n 9 || exit 0
 
 present() { hyprctl layers 2>/dev/null | grep -q mog-solar-system; }

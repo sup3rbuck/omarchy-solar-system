@@ -297,6 +297,8 @@ Item {
           width: Scene.W * stage.s
           height: Scene.H * stage.s
           source: "assets/background.png"
+          // Decoded off the main thread, so it never holds up the shell's start
+          asynchronous: true
           smooth: true
         }
 
@@ -379,11 +381,11 @@ Item {
           property vector4d pole: Qt.vector4d(root.sunOrient.n[0], root.sunOrient.n[1], root.sunOrient.n[2], 0)
           property vector4d meridian: Qt.vector4d(root.sunOrient.m[0], root.sunOrient.m[1], root.sunOrient.m[2], 0)
           property vector4d east: Qt.vector4d(root.sunOrient.e[0], root.sunOrient.e[1], root.sunOrient.e[2], 0)
-          property var surf: Image { source: "assets/sun_surface.png"; smooth: true; visible: false }
-          property var rays: Image { source: "assets/rays.png"; smooth: false; visible: false }
+          property var surf: Image { asynchronous: true; source: "assets/sun_surface.png"; smooth: true; visible: false }
+          property var rays: Image { asynchronous: true; source: "assets/rays.png"; smooth: false; visible: false }
           // Close up, fade into the photo of the Sun (loaded only when needed)
           property real detail: Math.max(0, Math.min(1, (rpx - 60) / 80))
-          property var photo: Image { source: sun.detail > 0 ? "textures/sun.jpg" : "assets/rays.png"; smooth: true; mipmap: true; visible: false }
+          property var photo: Image { asynchronous: true; source: sun.detail > 0 ? "textures/sun.jpg" : "assets/rays.png"; smooth: true; mipmap: true; visible: false }
           fragmentShader: "shaders/sun.frag.qsb"
         }
 
@@ -405,8 +407,8 @@ Item {
               property real rings: info.rings ? 1 : 0
               property vector4d light: st ? Qt.vector4d(st.light[0], st.light[1], st.light[2], 0) : Qt.vector4d(0, 0, 1, 0)
               property vector4d atmos: info.atmos ? Qt.vector4d(info.atmos[0], info.atmos[1], info.atmos[2], 1) : Qt.vector4d(0, 0, 0, 0)
-              property var tex: Image { source: "assets/" + body.info.file + ".png"; smooth: true; visible: false }
-              property var ringTex: Image { source: "assets/ring.png"; smooth: true; visible: false }
+              property var tex: Image { asynchronous: true; source: "assets/" + body.info.file + ".png"; smooth: true; visible: false }
+              property var ringTex: Image { asynchronous: true; source: "assets/ring.png"; smooth: true; visible: false }
               // Close up, fade into the photo globe (loaded only when needed)
               property real detail: info.photo ? Math.max(0, Math.min(1, (rpx - 14) / 30)) : 0
               property real earth: info.earth ? 1 : 0
@@ -416,9 +418,9 @@ Item {
               property vector4d meridian: o ? Qt.vector4d(o.m[0], o.m[1], o.m[2], 0) : Qt.vector4d(0, 0.4, 0.9165, 0)
               property vector4d east: o ? Qt.vector4d(o.e[0], o.e[1], o.e[2], 0) : Qt.vector4d(1, 0, 0, 0)
               readonly property bool near: detail > 0
-              property var photo: Image { source: body.near ? "textures/" + body.info.photo : "assets/ring.png"; smooth: true; mipmap: true; visible: false }
-              property var cloudTex: Image { source: body.near && body.info.earth ? "textures/earth_clouds.jpg" : "assets/ring.png"; smooth: true; mipmap: true; visible: false }
-              property var nightTex: Image { source: body.near && body.info.earth ? "textures/earth_nightmap.jpg" : "assets/ring.png"; smooth: true; mipmap: true; visible: false }
+              property var photo: Image { asynchronous: true; source: body.near ? "textures/" + body.info.photo : "assets/ring.png"; smooth: true; mipmap: true; visible: false }
+              property var cloudTex: Image { asynchronous: true; source: body.near && body.info.earth ? "textures/earth_clouds.jpg" : "assets/ring.png"; smooth: true; mipmap: true; visible: false }
+              property var nightTex: Image { asynchronous: true; source: body.near && body.info.earth ? "textures/earth_nightmap.jpg" : "assets/ring.png"; smooth: true; mipmap: true; visible: false }
               x: cxs - sz / 2
               y: cys - sz / 2
               width: sz

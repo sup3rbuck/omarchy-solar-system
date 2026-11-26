@@ -86,7 +86,8 @@ seconds.
 
 The plugin writes nothing outside its own settings file and a lock file in
 `$XDG_RUNTIME_DIR`. It does not change your Omarchy, Hyprland or wallpaper
-configuration.
+configuration. If `$XDG_RUNTIME_DIR` is missing or is not a private directory
+owned by you (mode 700), the video guard does not run.
 
 ## Requirements and dependencies
 

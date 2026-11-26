@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "mog.solar-system",
   "name": "Solar system",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "mog",
   "description": "A live solar system desktop background with every planet and moon at its real position for the current date and time. Fly in to any planet for a turning photographic globe, speed up time, or switch to true scale.",
   "kinds": [

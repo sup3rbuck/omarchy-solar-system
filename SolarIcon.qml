@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Shapes
 
-// The bar and panel icon: the Sun, an inner planet, and an outer planet on its
-// orbit, drawn as vectors in the theme colour. Kept simple so it still reads
-// at the bar's 12-16 px.
+// The bar and panel icon: the Sun and one planet on its orbit, drawn as
+// vectors in the theme colour. Kept to three shapes so it still reads at the
+// bar's 12-16 px.
 Item {
   id: root
   property color color: "white"
@@ -28,14 +28,8 @@ Item {
 
   // Sun
   Rectangle {
-    width: 5.6 * root.u; height: width; radius: width / 2
+    width: 5.0 * root.u; height: width; radius: width / 2
     x: 8 * root.u - width / 2; y: 8 * root.u - height / 2
-    color: root.color
-  }
-  // Inner planet (no orbit line, so it stays clear at small sizes)
-  Rectangle {
-    width: 2.4 * root.u; height: width; radius: width / 2
-    x: (8 + 3.9 * Math.cos(0.7)) * root.u - width / 2; y: (8 + 3.9 * Math.sin(0.7)) * root.u - height / 2
     color: root.color
   }
   // Outer planet on its orbit, top left
